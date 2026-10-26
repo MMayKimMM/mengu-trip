@@ -10,7 +10,8 @@ function resetPool(){pool=shuffle(questions.filter(x=>category==='전체'||x.cat
 function renderFilters(){let cats=['전체',...new Set(questions.map(q=>q.cat))];$('filters').replaceChildren(...cats.map(c=>{const b=document.createElement('button');b.className='filter'+(c===category?' sel':'');b.textContent=c;b.type='button';b.onclick=()=>{category=c;resetPool();renderFilters();nextQ()};return b;}));}
 function nextQ(){questionMistakes=0;solved=false;$('dialog').hidden=true;if(!pool.length)resetPool();current=questions.find(x=>x.id===pool.pop());lastId=current.id;const choices=shuffle([current.a,current.b,current.c].map((pair,i)=>({pair,isCorrect:i===0})));$('progress').textContent=current.cat+' · '+questions.filter(x=>category==='전체'||x.cat===category).length+'문제 중 랜덤';$('score').textContent='정답 '+correct+' / '+attempts;$('fill').style.width=(attempts?Math.round(correct/attempts*100):0)+'%';$('question').textContent=current.q;$('options').replaceChildren(...choices.map(({pair,isCorrect})=>{const b=document.createElement('button');b.className='choice';b.type='button';const jp=document.createElement('strong');jp.lang='ja';jp.textContent=pair[0];const ko=document.createElement('span');ko.textContent='🗣️ '+pair[1];b.append(jp,ko);b.onclick=()=>{if(!$('dialog').hidden)return;answer(isCorrect,b,pair);};return b;}));$('dialog').hidden=true;}
 let questionMistakes=0,solved=false;
-function lesson(jp,meaning,note){const parts=[...(jp.match(/[一-龯々]+|[ぁ-んァ-ヶー]+/g)||[])].slice(0,4);return (note||'표현 익히기: '+parts.join(' · ')+'\n'+meaning);}
+const VOCAB={"荷物":"니모츠=짐","預け":"아즈케=맡기다","預か":"아즈카=맡아두다","何時":"난지=몇 시","朝食":"초오쇼쿠=아침 식사","部屋":"헤야=방","二人":"후타리=두 명","二枚":"니마이=두 장","お水":"오미즈=물","辛く":"카라쿠=맵게","駅":"에키=역","電車":"덴샤=전철","バス":"바스=버스","現金":"겐킨=현금","カード":"카아도=카드","使え":"츠카에=사용할 수 있다","払え":"하라에=지불할 수 있다","トランク":"토란쿠=트렁크","乗り場":"노리바=타는 곳","乗り換え":"노리카에=환승","切符":"킷푸=승차권","出口":"데구치=출구","住所":"주우쇼=주소","いくら":"이쿠라=얼마","どこ":"도코=어디","何分":"난푼=몇 분","ください":"쿠다사이=주세요","お願いします":"오네가이시마스=부탁드립니다","できますか":"데키마스카=가능한가요","ありますか":"아리마스카=있나요","写真":"샤신=사진","免税":"멘제에=면세","袋":"후쿠로=봉투","色":"이로=색","病院":"뵤오인=병원","助け":"타스케=도움","ゆっくり":"윳쿠리=천천히","日本語":"니혼고=일본어","韓国語":"칸코쿠고=한국어","静か":"시즈카=조용한","タオル":"타오루=수건","氷":"코오리=얼음","歩いて":"아루이테=걸어서","忘れ物":"와스레모노=두고 온 물건","携帯電話":"케에타이덴와=휴대전화"};
+function lesson(jp,meaning,note){if(note)return note;const words=Object.entries(VOCAB).filter(([word])=>jp.includes(word)).sort((a,b)=>b[0].length-a[0].length).slice(0,4).map(([,desc])=>desc);return words.length?words.join(' · ')+'\n💡 문장 뜻: '+meaning:'💡 문장 뜻: '+meaning;}
 function answer(ok,button,pair){
  if(!$('dialog').hidden||solved||button.disabled)return;
  attempts++;if(ok){correct++;solved=true;}else{questionMistakes++;button.disabled=true;}
@@ -21,7 +22,7 @@ function answer(ok,button,pair){
  $('answerKR').textContent='🗣️ '+(ok?current.a[1]:pair[1]);
  const meaning=ok?current.meaning:(EXPLANATIONS[pair[0]]||'다른 상황에 사용하는 표현이야.');
  $('meaning').textContent=(ok?'✅ 정답: ':'❌ 내가 선택한 표현: ')+meaning+(ok?'':'\n\n팝업을 닫고 남은 보기에서 다시 골라봐!');
- $('vocab').textContent=ok?'📚 단어 공부\n'+lesson(current.a[0],current.meaning,current.note):'📚 표현 공부\n'+lesson(pair[0],meaning,'이 표현은 "'+meaning.split(' · ')[0]+'"라는 의미야. 질문의 상황과 비교해 보자.');
+ $('vocab').textContent=ok?'📚 단어 공부\n'+lesson(current.a[0],current.meaning,current.note):'📚 표현 공부\n'+lesson(pair[0],meaning,null);
  $('next').textContent=ok?'다음 문제 →':'↩ 다시 도전하기';
  $('score').textContent='정답 '+correct+' / '+attempts;$('fill').style.width=Math.round(correct/Math.max(attempts,1)*100)+'%';
  $('dialog').hidden=false;
