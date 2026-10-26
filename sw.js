@@ -1,5 +1,5 @@
 /* MENGU TRIP v1.6 — static-first offline app shell, no remote caching */
-const CACHE='mengu-trip-v1.8.1-quizfix-20261026';
+const CACHE='mengu-trip-v1.8.2-quiznext-20261026';
 const CORE=['./','./index.html','./style.css','./app.js','./japanese.html','./manifest.webmanifest','./assets/icon-192.png','./assets/icon-512.png'];
 const FONT_FILES=['./assets/fonts/NanumSquareNeo-Bold.woff2','./assets/fonts/NanumSquareNeo-ExtraBold.woff2'];
 self.addEventListener('install', event=>{
