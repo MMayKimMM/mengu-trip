@@ -1,5 +1,5 @@
 /* MENGU TRIP v1.6 — static-first offline app shell, no remote caching */
-const CACHE='mengu-trip-v1.12-hammer-game-20261028';
+const CACHE='mengu-trip-v1.12.1-bonk-20261028';
 const CORE=['./','./index.html','./style.css','./app.js','./japanese.html','./japanese-notes.html','./restaurants.html','./mind.html','./manifest.webmanifest','./assets/icon-192.png','./assets/icon-512.png'];
 const FONT_FILES=['./assets/fonts/NanumSquareNeo-Bold.woff2','./assets/fonts/NanumSquareNeo-ExtraBold.woff2'];
 self.addEventListener('install', event=>{
