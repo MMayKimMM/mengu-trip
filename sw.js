@@ -1,5 +1,5 @@
 /* MENGU TRIP v1.6 — static-first offline app shell, no remote caching */
-const CACHE='mengu-trip-v1.15-receipt-ocr-20261029';
+const CACHE='mengu-trip-v1.15.1-date-android-20261029';
 const CORE=['./','./index.html','./style.css','./app.js','./japanese.html','./japanese-notes.html','./restaurants.html','./mind.html','./chamcham.html','./expenses.html','./manifest.webmanifest','./assets/icon-192.png','./assets/icon-512.png'];
 const FONT_FILES=['./assets/fonts/NanumSquareNeo-Bold.woff2','./assets/fonts/NanumSquareNeo-ExtraBold.woff2'];
 self.addEventListener('install', event=>{
